@@ -10,5 +10,7 @@ module.exports.iniciaChat = function(application, req, res){
         res.render('index', {validacao: errors});
     }
 
+    application.get('io').emit('msgToClient', {nickname: formData.apelido, msg: 'new user in chatroom'});
+
     res.render('chat');
 }

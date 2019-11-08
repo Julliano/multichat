@@ -17,4 +17,18 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         console.log('usuario desconectado');
     });
+
+    socket.on('msgToServer', function(data) {
+        /* dialog */
+        socket.emit('msgToClient', {nickname: data.nickname, msg: data.msg});
+
+        socket.broadcast.emit('msgToClient', {nickname: data.nickname, msg: data.msg});
+
+        /* participants */
+        if (parseInt(data.nicknameUpdated) == 0) {
+            socket.emit('participantsToClient', {nickname: data.nickname});
+    
+            socket.broadcast.emit('participantsToClient', {nickname: data.nickname});
+        }
+    });
 });
